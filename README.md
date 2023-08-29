@@ -1,7 +1,6 @@
-# corda5-testutils
+# corda5-testutils [![Maven Central](https://img.shields.io/maven-central/v/com.github.manosbatsis.corda5.testutils/integration-junit5.svg)](https://repo1.maven.org/maven2/com/github/manosbatsis/corda5/testutils/integration-junit5/) [![CI](https://github.com/manosbatsis/corda5-testutils/actions/workflows/gradle.yml/badge.svg)](https://github.com/manosbatsis/corda5-testutils/actions/workflows/gradle.yml)
 
-Test utilities for Corda 5 applications. 
-
+Test utilities for Corda 5 applications.
 At the moment this project provides utilities for integration testing with the Corda 5 Combined Worker.
 
 ## Quick Howto
@@ -22,6 +21,8 @@ In your gradle:
 
 1. Run `./gradlew startCorda` and 
 2. Run `./gradlew 5-vNodeSetup` or `./gradlew 4-deployCPIs` as appropriate
+
+See R3's [CSDE Overview](https://docs.r3.com/en/platform/corda/5.0/developing-applications/getting-started/overview.html#csde-corda) for more info.
 
 ### Add a Test
 
@@ -44,17 +45,23 @@ import kotlin.test.assertTrue
 @ExtendWith(Corda5NodesExtension::class)
 open class DemoApplicationTests {
 
-    // Optional config for extension
-    val config = Corda5NodesConfig(debug = true)
+    // Optional config for extension, values bellow are defaults
+    val config = Corda5NodesConfig(
+        authUsername = "admin",
+        authPassword = "admin",
+        baseUrl = "https://localhost:8888/api/v1/",
+        httpMaxWaitSeconds = 60,
+        debug = false
+    )
 
-    // Corda5 nodes extension provides the NodeHandles
+    // The Corda5NodesExtension provides the NodeHandles
     @Test
     fun recordingFlowTests(nodeHandles: NodeHandles) {
         // Get node handles
         val aliceNode = nodeHandles.getByCommonName("Alice")
         val bobNode = nodeHandles.getByCommonName("Bob")
 
-        // Create state
+        // Call flow
         val myFlowArgs = MyFlowArgs(aliceNode.memberX500Name, bobNode.memberX500Name)
         val createdStatus = aliceNode.waitForFlow(
             FlowRequest(
@@ -62,8 +69,12 @@ open class DemoApplicationTests {
                 requestBody = myFlowArgs
             )
         )
-        logger.info("Create flow status: $createdStatus")
+        // Check flow status
         assertTrue(createdStatus.isSuccess())
     }
 }
 ```
+
+## Feedback
+
+Issues, PRs etc. welcome. You can also try pinging me on https://cordaledger.slack.com
