@@ -9,6 +9,23 @@ fun gradleRootDir(){
         currentDir = currentDir.parentFile
     }
 }
+
+enum class CombinedWorkerMode{
+    /**
+     * Default. Will launch, setup VNodes and (re)deploy to the Combined Worker
+     * as needed only once and reuse it for all tests.
+     */
+    SHARED,
+    /**
+     * Will launch, setup VNodes and (re)deploy to the Combined Worker
+     * as needed for each individual test class.
+     */
+    PER_CLASS,
+    /**
+     * Completely disables automation for the Combined Worker to enable manual or external management.
+     */
+    NONE
+}
 data class Corda5NodesConfig(
     val authUsername: String = "admin",
     val authPassword: String = "admin",
@@ -16,7 +33,8 @@ data class Corda5NodesConfig(
     val httpMaxWaitSeconds: Int = 60,
     val debug: Boolean = false,
     val gradleInstallationDir: File = gradleRootDir,
-    val projectDir: File = gradleRootDir
+    val projectDir: File = gradleRootDir,
+    val combinedWorkerMode: CombinedWorkerMode = CombinedWorkerMode.SHARED
 ){
     companion object{
         val gradleRootDir: File by lazy {

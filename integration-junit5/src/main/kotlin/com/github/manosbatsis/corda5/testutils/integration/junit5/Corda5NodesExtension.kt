@@ -13,9 +13,15 @@ class Corda5NodesExtension : AbstractCorda5Extension(), ParameterResolver {
         private val namespace: Namespace = Namespace.create(Corda5NodesExtension::class)
     }
 
+    private var nodeHandlesHelper: NodeHandlesHelper? = null
+
     override fun getConfig(
         extensionContext: ExtensionContext
     ) = findConfig(getRequiredTestClass(extensionContext))
+
+    override fun clearNodeHandles() {
+        nodeHandlesHelper?.reset()
+    }
 
     open fun findConfig(testClass: Class<*>): Corda5NodesConfig =
         findFieldValue(testClass, Corda5NodesConfig::class.java)
@@ -32,5 +38,8 @@ class Corda5NodesExtension : AbstractCorda5Extension(), ParameterResolver {
     override fun resolveParameter(
         parameterContext: ParameterContext?,
         extensionContext: ExtensionContext?
-    ) = if (started) NodeHandlesHelper(config).nodeHandles else null
+    ) = if (started) {
+        if(nodeHandlesHelper == null) nodeHandlesHelper = NodeHandlesHelper(config)
+        nodeHandlesHelper!!.nodeHandles
+    } else null
 }

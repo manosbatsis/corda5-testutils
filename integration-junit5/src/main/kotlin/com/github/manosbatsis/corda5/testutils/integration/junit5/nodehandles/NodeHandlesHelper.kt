@@ -4,10 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.kotlinModule
 import com.github.manosbatsis.corda5.testutils.integration.junit5.Corda5NodesConfig
-import com.github.manosbatsis.corda5.testutils.integration.junit5.client.CustomFeignRequestLogging
-import com.github.manosbatsis.corda5.testutils.integration.junit5.client.FlowsClient
-import com.github.manosbatsis.corda5.testutils.integration.junit5.client.TrustAllCertsCOkHttpClient
-import com.github.manosbatsis.corda5.testutils.integration.junit5.client.VirtualNodesClient
+import com.github.manosbatsis.corda5.testutils.integration.junit5.client.*
 import com.github.manosbatsis.corda5.testutils.integration.junit5.client.model.VirtualNodeInfo
 import feign.Feign
 import feign.auth.BasicAuthRequestInterceptor
@@ -15,47 +12,39 @@ import feign.jackson.JacksonDecoder
 import feign.jackson.JacksonEncoder
 import feign.okhttp.OkHttpClient
 import net.corda.v5.base.types.MemberX500Name
-import org.gradle.tooling.BuildLauncher
-import org.gradle.tooling.GradleConnector
-import org.gradle.tooling.ProjectConnection
-import java.io.File
 import java.util.concurrent.TimeUnit
-
-
-class GradleHelper(gradleInstallationDir: String, projectDir: String) {
-    private val connector: GradleConnector
-
-    init {
-        connector = GradleConnector.newConnector()
-        connector.useInstallation(File(gradleInstallationDir))
-        connector.forProjectDirectory(File(projectDir))
-    }
-
-    fun executeTask(vararg tasks: String) {
-        val connection: ProjectConnection = connector.connect()
-        val build: BuildLauncher = connection.newBuild()
-        build.forTasks(*tasks)
-        build.run()
-        connection.close()
-    }
-
-}
 
 
 class NodeHandlesHelper(
     val config: Corda5NodesConfig
 ) {
 
-    private val objectMapper = ObjectMapper().registerModules(JavaTimeModule(), kotlinModule())
+    companion object{
+        private val logger = loggerFor(NodeHandlesHelper::class.java)
+        private val objectMapper = ObjectMapper().registerModules(JavaTimeModule(), kotlinModule())
+
+        var nodeHandlesCache: NodeHandles? = null
+    }
+    val nodeHandles: NodeHandles
+        get() {
+            if(nodeHandlesCache == null) nodeHandlesCache = buildNodeHandles()
+            return nodeHandlesCache!!
+        }
+
     private val toolingAPI by lazy {
         GradleHelper(
             config.gradleInstallationDir.absolutePath,
             config.projectDir.absolutePath)
     }
 
-    var nodesResponse: MutableList<VirtualNodeInfo>? = null
+    fun reset(){
+        nodeHandlesCache = null
+    }
+
     private fun buildNodeHandles(): NodeHandles {
-        if(nodesResponse == null) try{
+
+        var nodesResponse: MutableList<VirtualNodeInfo>? = null
+        try{
             nodesResponse = nodesClient.nodes().virtualNodes
         }catch (e: Exception){
             toolingAPI.executeTask("startCorda")
@@ -63,15 +52,20 @@ class NodeHandlesHelper(
             while (nodesResponse == null && maxWait > 0){
                 maxWait = maxWait - 1
                 TimeUnit.SECONDS.sleep(1L)
-                nodesResponse = nodesClient.nodes().virtualNodes
+                try {
+                    nodesResponse = nodesClient.nodes().virtualNodes
+                }catch (e: Exception){
+                    logger.debug("Waiting for Combined Worker...")
+                }
             }
 
-            if(nodesResponse == null) throw RuntimeException("Starting Corda timed out")
+            if(nodesResponse == null) throw RuntimeException("Timed out while waiting for Combined Worker")
         }
 
         if(nodesResponse!!.isEmpty()) toolingAPI.executeTask("5-vNodeSetup")
         else toolingAPI.executeTask("4-deployCPIs")
-        val nodes = nodesResponse!!.map {
+
+        val nodes = nodesResponse.map {
             NodeHandle(
                 MemberX500Name.parse(it.holdingIdentity.x500Name),
                 it.holdingIdentity.shortHash,
@@ -103,5 +97,4 @@ class NodeHandlesHelper(
         buildFeignClient(VirtualNodesClient::class.java)
     }
 
-    val nodeHandles by lazy { buildNodeHandles() }
 }

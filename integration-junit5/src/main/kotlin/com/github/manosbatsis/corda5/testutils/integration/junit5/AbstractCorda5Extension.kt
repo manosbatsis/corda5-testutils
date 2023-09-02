@@ -28,6 +28,10 @@ abstract class AbstractCorda5Extension : BeforeAllCallback, AfterAllCallback, Ju
 
     /** Stop the Corda network */
     override fun afterAll(extensionContext: ExtensionContext) {
+        if(config.combinedWorkerMode == CombinedWorkerMode.PER_CLASS)
+            clearNodeHandles()
         // NO-OP
     }
+
+    abstract fun clearNodeHandles()
 }
