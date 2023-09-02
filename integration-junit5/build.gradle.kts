@@ -20,4 +20,9 @@ dependencies {
     implementation("io.github.openfeign:feign-core:12.5")
     implementation("io.github.openfeign:feign-jackson:12.5")
     implementation("io.github.openfeign:feign-okhttp:12.5")
+    // https://mvnrepository.com/artifact/org.gradle/gradle-tooling-api
+    //runtimeOnly("org.gradle:gradle-api:7.4.2")
+    implementation("org.gradle:gradle-tooling-api:7.4.2")
+
+
 }
