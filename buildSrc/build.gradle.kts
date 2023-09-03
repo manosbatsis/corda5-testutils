@@ -31,11 +31,8 @@ dependencies {
     implementation("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detektPlugin")
     implementation("io.github.gradle-nexus:publish-plugin:$gradleNexusPublishPlugin")
     implementation("com.adarshr:gradle-test-logger-plugin:$gradleTestLoggerPlugin")
-    implementation("com.github.ben-manes:gradle-versions-plugin:$gradleVersionsPlugin")
     implementation("org.jetbrains.dokka:dokka-gradle-plugin:$kotlinDokkaPlugin")
     implementation("org.jetbrains.kotlinx:kover:$kotlinxKoverPlugin")
-    implementation("se.patrikerdes:gradle-use-latest-versions-plugin:$useLatestVersionsPlugin")
-
     implementation(platform("org.springframework.boot:spring-boot-dependencies:${springBootVersion}"))
     implementation("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     implementation("io.spring.gradle:dependency-management-plugin:${springBootDependencyManagementVersion}")

@@ -25,7 +25,7 @@ data class NodeHandle(
             flowStatusResponse = flowsClient.flowStatus(holdingIdentityShortHash, clientRequestId)
             when {
                 flowStatusResponse.isFinal() -> break
-                else -> logger.debug("Non-final flow status will retry $flowStatusResponse")
+                else -> logger.info("Non-final flow status will retry $flowStatusResponse")
             }
         }
         return flowStatusResponse

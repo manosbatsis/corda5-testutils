@@ -8,7 +8,6 @@ dependencyResolutionManagement {
         mavenCentral()
         gradlePluginPortal()
         maven { url = uri("https://repo.spring.io/milestone") }
-        maven { url = uri("https://repo.gradle.org/gradle/libs-releases") }
         maven("https://oss.sonatype.org/content/repositories/snapshots/") {
             mavenContent { snapshotsOnly() }
         }
@@ -18,7 +17,6 @@ dependencyResolutionManagement {
         repositories {
             gradlePluginPortal()
             mavenCentral()
-            maven { url = uri("(https://repo.gradle.org/gradle/libs-releases/") }
 
         }
     }
