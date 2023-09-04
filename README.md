@@ -26,7 +26,7 @@ In your gradle:
 
 ## Quick Howto
 
-The JUnit5 extension will automatically lanch, setup VNodes and (re)deploy CPIs 
+The JUnit5 extension will automatically launch, setup VNodes and (re)deploy CPIs 
 to the Combined Worker as needed by default. The config exposes three modes:
 
 - SHARED: Default, described above. 
