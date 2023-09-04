@@ -41,14 +41,14 @@ and expose them as a `NodeHandles` parameter to your test methods. Each node has
 utility methods like `waitForFlow` that can be used to initiate flows and wait for a final flow status.
 
 ```kotlin
+import com.github.manosbatsis.corda5.testutils.integration.junit5.CombinedWorkerMode
 import com.github.manosbatsis.corda5.testutils.integration.junit5.Corda5NodesConfig
 import com.github.manosbatsis.corda5.testutils.integration.junit5.Corda5NodesExtension
-import com.github.manosbatsis.corda5.testutils.integration.junit5.client.model.FlowRequest
 import com.github.manosbatsis.corda5.testutils.integration.junit5.nodehandles.NodeHandles
+import com.github.manosbatsis.corda5.testutils.rest.client.model.FlowRequest
 import net.corda.v5.base.types.MemberX500Name
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import java.util.*
 import kotlin.test.assertTrue
 
 // Add the Corda5 nodes extension
@@ -61,7 +61,9 @@ open class DemoApplicationTests {
         authPassword = "admin",
         baseUrl = "https://localhost:8888/api/v1/",
         httpMaxWaitSeconds = 60,
-        debug = false
+        debug = false,
+        projectDir = Corda5NodesConfig.gradleRootDir,
+        combinedWorkerMode = CombinedWorkerMode.SHARED
     )
 
     // The Corda5NodesExtension provides the NodeHandles

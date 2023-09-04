@@ -39,7 +39,7 @@ data class Corda5NodesConfig(
     val baseUrl: String = "https://localhost:8888/api/v1/",
     val httpMaxWaitSeconds: Int = 60,
     val debug: Boolean = false,
-    val projectDir: File = gradleRootDir,
+    val projectDir: File = Corda5NodesConfig.gradleRootDir,
     val combinedWorkerMode: CombinedWorkerMode = CombinedWorkerMode.SHARED
 ) {
     companion object {
