@@ -87,6 +87,10 @@ open class DemoApplicationTests {
 }
 ```
 
+## Github Action
+
+Using Github for your CI? Check out [corda5-cli-action](https://github.com/manosbatsis/corda5-cli-action).
+
 ## Feedback
 
 Issues, PRs etc. welcome. You can also try pinging me on https://cordaledger.slack.com
