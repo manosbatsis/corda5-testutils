@@ -1,4 +1,4 @@
-package com.github.manosbatsis.corda5.testutils.integration.junit5.client.model
+package com.github.manosbatsis.corda5.testutils.rest.client.model
 
 /**
  * Represents the error for a flow that is in the FAILED state.

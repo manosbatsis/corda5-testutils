@@ -5,8 +5,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.kotlinModule
 import com.github.manosbatsis.corda5.testutils.integration.junit5.CombinedWorkerMode
 import com.github.manosbatsis.corda5.testutils.integration.junit5.Corda5NodesConfig
-import com.github.manosbatsis.corda5.testutils.integration.junit5.client.*
-import com.github.manosbatsis.corda5.testutils.integration.junit5.client.model.VirtualNodeInfo
+import com.github.manosbatsis.corda5.testutils.rest.client.*
+import com.github.manosbatsis.corda5.testutils.rest.client.model.VirtualNodeInfo
 import feign.Feign
 import feign.auth.BasicAuthRequestInterceptor
 import feign.jackson.JacksonDecoder
@@ -41,7 +41,7 @@ class NodeHandlesHelper(
             return nodeHandlesCache!!
         }
 
-    private val toolingAPI by lazy {
+    private val gradle by lazy {
         GradleHelper(
             config.projectDir.absolutePath
         )
@@ -49,20 +49,22 @@ class NodeHandlesHelper(
 
     fun reset() {
         nodeHandlesCache = null
-        toolingAPI.executeTaskAndWait("stopCorda")
+        gradle.executeTaskAndWait("stopCorda")
     }
 
     private fun buildNodeHandles(): NodeHandles {
         var nodesResponse: MutableList<VirtualNodeInfo>? =
             virtualNodeInfos(::nodesNullResponseCheck) {
-                toolingAPI.executeTask("startCorda")
+                // Force a (re)start even with a forgotten pid present
+                try { gradle.executeTaskAndWait("stopCorda") } catch (e: Exception) { /* NO-OP */ }
+                gradle.executeTask("startCorda")
             }
 
         logger.info("Combined worker started, node list, size: ${nodesResponse!!.size}")
         if (nodesResponse.isEmpty()) {
-            toolingAPI.executeTaskAndWait("5-vNodeSetup")
+            gradle.executeTaskAndWait("5-vNodeSetup")
             nodesResponse = virtualNodeInfos(::nodesEmptyResponseCheck)
-        } else toolingAPI.executeTaskAndWait("4-deployCPIs")
+        } else gradle.executeTaskAndWait("4-deployCPIs")
 
         return nodeHandles(nodesResponse!!)
     }

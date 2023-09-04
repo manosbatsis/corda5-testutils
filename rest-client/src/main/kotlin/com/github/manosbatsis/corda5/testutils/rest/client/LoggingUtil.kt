@@ -1,4 +1,4 @@
-package com.github.manosbatsis.corda5.testutils.integration.junit5.client
+package com.github.manosbatsis.corda5.testutils.rest.client
 
 import kotlin.reflect.full.companionObject
 import java.util.logging.Logger

@@ -1,6 +1,6 @@
 package com.github.manosbatsis.corda5.testutils.integration.junit5
 
-import com.github.manosbatsis.corda5.testutils.integration.junit5.client.loggerFor
+import com.github.manosbatsis.corda5.testutils.rest.client.loggerFor
 import java.io.File
 
 fun gradleRootDir() {
@@ -40,8 +40,7 @@ data class Corda5NodesConfig(
     val httpMaxWaitSeconds: Int = 60,
     val debug: Boolean = false,
     val projectDir: File = gradleRootDir,
-    val combinedWorkerMode: CombinedWorkerMode = CombinedWorkerMode.SHARED,
-    val gradleInstallationDir: File? = null,
+    val combinedWorkerMode: CombinedWorkerMode = CombinedWorkerMode.SHARED
 ) {
     companion object {
         private val logger = loggerFor(Corda5NodesConfig::class.java)

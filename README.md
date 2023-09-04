@@ -3,9 +3,16 @@
 Test utilities for Corda 5 applications.
 At the moment this project provides utilities for integration testing with the Corda 5 Combined Worker.
 
-## Quick Howto
+## Prerequisites
 
-### Install 
+Same as [CSDE](https://docs.r3.com/en/platform/corda/5.0/developing-applications/getting-started/prerequisites.html#software-prerequisites) 
+
+- Azul Zulu JDK 11
+- Git ~v2.24.1
+- Docker Engine ~v20.X.Y or Docker Desktop ~v3.5.X
+- Corda CLI, see [Installing the Corda CLI](https://docs.r3.com/en/platform/corda/5.0/developing-applications/tooling/installing-corda-cli.html)
+
+### Gradle Dependencies
 
 In your gradle:
 
@@ -17,14 +24,17 @@ In your gradle:
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
 ```
 
-### Prepare 
+## Quick Howto
 
-1. Run `./gradlew startCorda` and 
-2. Run `./gradlew 5-vNodeSetup` or `./gradlew 4-deployCPIs` as appropriate
+The JUnit5 extension will automatically lanch, setup VNodes and (re)deploy CPIs 
+to the Combined Worker as needed by default. The config exposes three modes:
 
-See R3's [CSDE Overview](https://docs.r3.com/en/platform/corda/5.0/developing-applications/getting-started/overview.html#csde-corda) for more info.
+- SHARED: Default, described above. 
+- PER_CLASS: Will force a fresh Combined worker for the current Test Class.
+- NONE: Completely disables automation for the Combined Worker to enable manual or external management.
 
-### Add a Test
+
+### Create a Test
 
 The `Corda5NodesExtension` will retrieve the list of virtual nodes from the combined worker 
 and expose them as a `NodeHandles` parameter to your test methods. Each node has basic info plus 
