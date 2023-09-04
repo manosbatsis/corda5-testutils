@@ -17,6 +17,7 @@ dependencyResolutionManagement {
         repositories {
             gradlePluginPortal()
             mavenCentral()
+
         }
     }
 }

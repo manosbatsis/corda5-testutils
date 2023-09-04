@@ -3,7 +3,6 @@ package buildsrc.convention
 plugins {
     base
     id("com.adarshr.test-logger")
-    id("buildsrc.convention.version-management")
 }
 
 description =
@@ -14,8 +13,3 @@ if (project != rootProject) {
     version = rootProject.version
 }
 
-testlogger {
-    setTheme("mocha-parallel")
-    slowThreshold = 1000
-    showStandardStreams = false
-}

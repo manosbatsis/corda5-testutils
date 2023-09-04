@@ -19,8 +19,6 @@ plugins {
 dependencies {
     testImplementation(Deps.jUnit)
     testImplementation(Deps.strikt)
-    testImplementation(Deps.Mockk.mockk)
-    testImplementation(Deps.Mockk.dslJvm)
 }
 
 configure<KtlintExtension> {

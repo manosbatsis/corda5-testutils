@@ -7,7 +7,6 @@ val cordaApiVersion by System.getProperties()
 val junitVersion by System.getProperties()
 
 dependencies {
-    api(project(":rest-client"))
     implementation("org.jetbrains.kotlin:kotlin-test-junit5")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 

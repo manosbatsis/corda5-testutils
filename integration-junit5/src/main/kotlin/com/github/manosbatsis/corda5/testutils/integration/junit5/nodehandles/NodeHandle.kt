@@ -1,9 +1,9 @@
 package com.github.manosbatsis.corda5.testutils.integration.junit5.nodehandles
 
-import com.github.manosbatsis.corda5.testutils.integration.junit5.client.model.FlowRequest
-import com.github.manosbatsis.corda5.testutils.integration.junit5.client.model.FlowStatusResponse
-import com.github.manosbatsis.corda5.testutils.integration.junit5.client.FlowsClient
-import com.github.manosbatsis.corda5.testutils.integration.junit5.client.loggerFor
+import com.github.manosbatsis.corda5.testutils.rest.client.FlowsClient
+import com.github.manosbatsis.corda5.testutils.rest.client.loggerFor
+import com.github.manosbatsis.corda5.testutils.rest.client.model.FlowRequest
+import com.github.manosbatsis.corda5.testutils.rest.client.model.FlowStatusResponse
 import net.corda.v5.base.types.MemberX500Name
 import java.util.concurrent.TimeUnit
 
@@ -25,7 +25,7 @@ data class NodeHandle(
             flowStatusResponse = flowsClient.flowStatus(holdingIdentityShortHash, clientRequestId)
             when {
                 flowStatusResponse.isFinal() -> break
-                else -> logger.debug("Non-final flow status will retry $flowStatusResponse")
+                else -> logger.info("Non-final flow status will retry $flowStatusResponse")
             }
         }
         return flowStatusResponse

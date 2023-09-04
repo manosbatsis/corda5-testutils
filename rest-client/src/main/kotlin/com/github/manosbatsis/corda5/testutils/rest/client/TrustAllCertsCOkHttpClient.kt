@@ -1,4 +1,4 @@
-package com.github.manosbatsis.corda5.testutils.integration.junit5.client
+package com.github.manosbatsis.corda5.testutils.rest.client
 
 import okhttp3.OkHttpClient
 import okhttp3.OkHttpClient.Builder
@@ -17,8 +17,12 @@ object TrustAllCertsCOkHttpClient {
         get() {
             val trustAllCerts = arrayOf<TrustManager>(
                 object : X509TrustManager {
-                    override fun checkClientTrusted(chain: Array<X509Certificate>, authType: String) { /*NO-OP*/ }
-                    override fun checkServerTrusted(chain: Array<X509Certificate>, authType: String) { /*NO-OP*/ }
+                    override fun checkClientTrusted(chain: Array<X509Certificate>, authType: String) { /*NO-OP*/
+                    }
+
+                    override fun checkServerTrusted(chain: Array<X509Certificate>, authType: String) { /*NO-OP*/
+                    }
+
                     override fun getAcceptedIssuers(): Array<X509Certificate> {
                         return arrayOf()
                     }
@@ -28,7 +32,7 @@ object TrustAllCertsCOkHttpClient {
             sslContext.init(null, trustAllCerts, SecureRandom())
             val newBuilder = Builder()
             newBuilder.sslSocketFactory(sslContext.socketFactory, (trustAllCerts[0] as X509TrustManager))
-            newBuilder.hostnameVerifier { hostname: String?, session: SSLSession? -> true }
+            newBuilder.hostnameVerifier { _: String?, _: SSLSession? -> true }
             return newBuilder.build()
         }
 }
