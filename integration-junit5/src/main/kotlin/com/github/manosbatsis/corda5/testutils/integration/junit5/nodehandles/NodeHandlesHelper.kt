@@ -55,9 +55,13 @@ class NodeHandlesHelper(
     private fun buildNodeHandles(): NodeHandles {
         var nodesResponse: MutableList<VirtualNodeInfo>? =
             virtualNodeInfos(::nodesNullResponseCheck) {
-                // Force a (re)start even with a forgotten pid present
-                try { gradle.executeTaskAndWait("stopCorda") } catch (e: Exception) { /* NO-OP */ }
-                gradle.executeTask("startCorda")
+                try {
+                    gradle.executeTask("startCorda")
+                } catch (e: Exception) {
+                    // Force a (re)start even with a forgotten pid present
+                    gradle.executeTaskAndWait("stopCorda")
+                    gradle.executeTask("startCorda")
+                }
             }
 
         logger.info("Combined worker started, node list, size: ${nodesResponse!!.size}")
