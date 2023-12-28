@@ -41,6 +41,7 @@ and expose them as a `NodeHandles` parameter to your test methods. Each node has
 utility methods like `waitForFlow` that can be used to initiate flows and wait for a final flow status.
 
 ```kotlin
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.manosbatsis.corda5.testutils.integration.junit5.CombinedWorkerMode
 import com.github.manosbatsis.corda5.testutils.integration.junit5.Corda5NodesConfig
 import com.github.manosbatsis.corda5.testutils.integration.junit5.Corda5NodesExtension
