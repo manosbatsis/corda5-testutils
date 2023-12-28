@@ -6,6 +6,7 @@ import com.fasterxml.jackson.module.kotlin.kotlinModule
 import com.github.manosbatsis.corda5.testutils.integration.junit5.CombinedWorkerMode
 import com.github.manosbatsis.corda5.testutils.integration.junit5.Corda5NodesConfig
 import com.github.manosbatsis.corda5.testutils.rest.client.*
+import com.github.manosbatsis.corda5.testutils.integration.junit5.jackson.Corda5Module
 import com.github.manosbatsis.corda5.testutils.rest.client.model.VirtualNodeInfo
 import feign.Feign
 import feign.auth.BasicAuthRequestInterceptor
@@ -21,7 +22,7 @@ class NodeHandlesHelper(
 
     companion object {
         private val logger = loggerFor(NodeHandlesHelper::class.java)
-        private val objectMapper = ObjectMapper().registerModules(JavaTimeModule(), kotlinModule())
+        private val objectMapper = ObjectMapper().registerModules(JavaTimeModule(), kotlinModule(), Corda5Module())
 
         var nodeHandlesCache: NodeHandles? = null
     }
