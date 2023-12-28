@@ -12,7 +12,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 
     implementation(platform("net.corda:corda-api:$cordaApiVersion"))
-    implementation("net.corda:corda-base")
+    implementation("net.corda:corda-serialization")
     implementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
