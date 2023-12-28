@@ -63,7 +63,11 @@ open class DemoApplicationTests {
         httpMaxWaitSeconds = 60,
         debug = false,
         projectDir = Corda5NodesConfig.gradleRootDir,
-        combinedWorkerMode = CombinedWorkerMode.SHARED
+        combinedWorkerMode = CombinedWorkerMode.SHARED,
+        // Optional, null by default
+        objectMapperConfigurer = { objectMapper: ObjectMapper ->
+            objectMapper.registerModule(myModule)
+        }
     )
 
     // The Corda5NodesExtension provides the NodeHandles
