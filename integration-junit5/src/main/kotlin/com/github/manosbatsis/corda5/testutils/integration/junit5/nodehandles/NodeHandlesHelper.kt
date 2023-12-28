@@ -22,9 +22,15 @@ class NodeHandlesHelper(
 
     companion object {
         private val logger = loggerFor(NodeHandlesHelper::class.java)
-        private val objectMapper = ObjectMapper().registerModules(JavaTimeModule(), kotlinModule(), Corda5Module())
 
         var nodeHandlesCache: NodeHandles? = null
+    }
+
+    private val objectMapper by lazy {
+        ObjectMapper().registerModules(JavaTimeModule(), kotlinModule(), Corda5Module())
+            .also {
+                if (config.objectMapperConfigurer != null) config.objectMapperConfigurer.invoke(it)
+            }
     }
 
     val nodeHandles: NodeHandles

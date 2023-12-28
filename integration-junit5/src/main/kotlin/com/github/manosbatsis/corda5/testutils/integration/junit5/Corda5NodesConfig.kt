@@ -1,5 +1,6 @@
 package com.github.manosbatsis.corda5.testutils.integration.junit5
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.manosbatsis.corda5.testutils.rest.client.loggerFor
 import java.io.File
 
@@ -39,8 +40,9 @@ data class Corda5NodesConfig(
     val baseUrl: String = "https://localhost:8888/api/v1/",
     val httpMaxWaitSeconds: Int = 60,
     val debug: Boolean = false,
-    val projectDir: File = Corda5NodesConfig.gradleRootDir,
-    val combinedWorkerMode: CombinedWorkerMode = CombinedWorkerMode.SHARED
+    val projectDir: File = gradleRootDir,
+    val combinedWorkerMode: CombinedWorkerMode = CombinedWorkerMode.SHARED,
+    val objectMapperConfigurer: ((ObjectMapper) -> Unit)? = null
 ) {
     companion object {
         private val logger = loggerFor(Corda5NodesConfig::class.java)
