@@ -10,7 +10,11 @@ import net.corda.v5.base.types.MemberX500Name
 
 open class MemberX500NameSerializer : StdSerializer<MemberX500Name>(MemberX500Name::class.java) {
 
-    override fun serialize(memberX500Name: MemberX500Name, jsonGenerator: JsonGenerator, serializerProvider: SerializerProvider) {
+    override fun serialize(
+        memberX500Name: MemberX500Name,
+        jsonGenerator: JsonGenerator,
+        serializerProvider: SerializerProvider
+    ) {
         jsonGenerator.writeString(memberX500Name.toString())
     }
 }
