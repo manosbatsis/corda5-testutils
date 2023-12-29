@@ -46,22 +46,6 @@
                 }
               ],
               "countMatches": true
-            },
-            {
-              "files": [
-                "README.md"
-              ],
-              "from": "\\bintegration-junit5:.*",
-              "to": "integration-junit5:${lastRelease.version}\")",
-              "results": [
-                {
-                  "file": "README.md",
-                  "hasChanged": true,
-                  "numMatches": 1,
-                  "numReplacements": 1
-                }
-              ],
-              "countMatches": true
             }
           ]
         }
@@ -72,7 +56,6 @@
           "assets": [
             "gradle.properties",
             "docs/CHANGELOG.md",
-            "README.md"
           ],
           "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
         }

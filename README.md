@@ -18,7 +18,7 @@ In your gradle:
 
 ```groovy
 
-    testImplementation("com.github.manosbatsis.corda5.testutils:integration-junit5:1.1.2")
+    testImplementation("com.github.manosbatsis.corda5.testutils:integration-junit5:$corda5testutilsVersion")
 
     testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
