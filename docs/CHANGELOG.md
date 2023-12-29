@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.3](https://github.com/manosbatsis/corda5-testutils/compare/v1.1.2...v1.1.3) (2023-12-29)
+
+
+### Bug Fixes
+
+* fix version update in docs ([f69969d](https://github.com/manosbatsis/corda5-testutils/commit/f69969d98dc311dcb6e3f2b755536fe8168b3e66))
+* fix version update in docs ([4b766b5](https://github.com/manosbatsis/corda5-testutils/commit/4b766b533de94fbea27183d0319a48bbcf5a127e))
+* fix version update in docs ([80d5617](https://github.com/manosbatsis/corda5-testutils/commit/80d56174f80eb32e7f6855de7ee8dbf1b87306c4))
+
 ## [1.1.2](https://github.com/manosbatsis/corda5-testutils/compare/v1.1.1...v1.1.2) (2023-12-29)
 
 
