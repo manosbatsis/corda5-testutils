@@ -1,4 +1,4 @@
-# corda5-testutils [![Maven Central](https://img.shields.io/maven-central/v/com.github.manosbatsis.corda5.testutils/integration-junit5:1.1.1")
+# corda5-testutils [![Maven Central](https://img.shields.io/maven-central/v/com.github.manosbatsis.corda5.testutils/integration-junit5.svg)](https://repo1.maven.org/maven2/com/github/manosbatsis/corda5/testutils/integration-junit5/) [![CI](https://github.com/manosbatsis/corda5-testutils/actions/workflows/gradle.yml/badge.svg)](https://github.com/manosbatsis/corda5-testutils/actions/workflows/gradle.yml)
 
 Test utilities for Corda 5 applications.
 At the moment this project provides utilities for integration testing with the Corda 5 Combined Worker.
@@ -18,7 +18,7 @@ In your gradle:
 
 ```groovy
 
-    testImplementation("com.github.manosbatsis.corda5.testutils:integration-junit5:1.1.1")
+    testImplementation("com.github.manosbatsis.corda5.testutils:integration-junit5:1.1.2")
 
     testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
