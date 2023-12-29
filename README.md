@@ -1,4 +1,4 @@
-# corda5-testutils [![Maven Central](https://img.shields.io/maven-central/v/com.github.manosbatsis.corda5.testutils/integration-junit5.svg)](https://repo1.maven.org/maven2/com/github/manosbatsis/corda5/testutils/integration-junit5/) [![CI](https://github.com/manosbatsis/corda5-testutils/actions/workflows/gradle.yml/badge.svg)](https://github.com/manosbatsis/corda5-testutils/actions/workflows/gradle.yml)
+# corda5-testutils [![Maven Central](https://img.shields.io/maven-central/v/com.github.manosbatsis.corda5.testutils/integration-junit5:1.1.1")
 
 Test utilities for Corda 5 applications.
 At the moment this project provides utilities for integration testing with the Corda 5 Combined Worker.
