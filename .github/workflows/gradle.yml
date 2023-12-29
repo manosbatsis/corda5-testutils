@@ -38,32 +38,26 @@ jobs:
         with:
           arguments: build
 
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2
-        if: ${{ matrix.java-version == '8' && matrix.os == 'ubuntu-latest' }}
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        if: github.ref == 'refs/heads/master'
         with:
-          token: ${{secrets.CODECOV_TOKEN}}
-          files: ./build/reports/kover/report.xml
+          node-version: 18.x
+          cache: "npm"
 
+      - name: Install npm dependencies
+        if: github.ref == 'refs/heads/master'
+        run: npm install
 
-      - name: Identify current version
-        id: current_version
-        uses: christian-draeger/read-properties@1.0.1
-        with:
-          path: './gradle.properties'
-          property: 'release_version'
-
-      - name: Temporarily set snapshot version
-        if: ${{ github.event_name == 'push' && matrix.os == 'ubuntu-latest' }}
-        uses: christian-draeger/write-properties@1.0.1
-        with:
-          path: './gradle.properties'
-          property: 'release_version'
-          value: ${{steps.current_version.outputs.value}}-SNAPSHOT
+      - name: Update and tag version
+        if: github.ref == 'refs/heads/master'
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: gradle/gradle-build-action@v2
+        if: github.ref == 'refs/heads/master'
         name: Publish snapshot to Maven Central
-        if: ${{ github.event_name == 'push' && matrix.os == 'ubuntu-latest' }}
         env:
           ORG_GRADLE_PROJECT_signingKey: ${{secrets.ORG_GRADLE_PROJECT_SIGNINGKEY}}
           ORG_GRADLE_PROJECT_signingKeyId: ${{secrets.ORG_GRADLE_PROJECT_SIGNINGKEYID}}
@@ -71,4 +65,4 @@ jobs:
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{secrets.ORG_GRADLE_PROJECT_SONATYPEUSERNAME}}
           ORG_GRADLE_PROJECT_sonatypePassword: ${{secrets.ORG_GRADLE_PROJECT_SONATYPEPASSWORD}}
         with:
-          arguments: publishToSonatype
+          arguments: publishToSonatype closeAndReleaseSonatypeStagingRepositor

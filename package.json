@@ -1,0 +1,57 @@
+{
+  "name": "corda5-testutils",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "commit-analyzer-fail-on-no-release": "^1.0.1",
+    "semantic-release": "^21.0.7",
+    "semantic-release-replace-plugin": "^1.2.6"
+  },
+  "release": {
+    "branches": ["master"],
+    "plugins": [
+      "commit-analyzer-fail-on-no-release",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/changelog",
+        {
+          "changelogFile": "docs/CHANGELOG.md",
+          "changelogTitle": "# Changelog\n\nAll notable changes to this project will be documented in this file.\nThe format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),\nand this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)."
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "npmPublish": false
+        }
+      ],
+      [
+        "semantic-release-replace-plugin",
+        {
+          "replacements": [
+            {
+              "files": [
+                "gradle.properties"
+              ],
+              "from": "\\bversion=.*",
+              "to": "version=${nextRelease.version}",
+              "countMatches": true
+            }
+          ]
+        }
+      ],
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "gradle.properties",
+            "docs/CHANGELOG.md"
+          ],
+          "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        }
+      ]
+    ]
+  }
+}
