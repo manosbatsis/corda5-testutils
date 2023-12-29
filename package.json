@@ -37,14 +37,30 @@
               ],
               "from": "\\bversion=.*",
               "to": "version=${nextRelease.version}",
+              "results": [
+                {
+                  "file": "gradle.properties",
+                  "hasChanged": true,
+                  "numMatches": 1,
+                  "numReplacements": 1
+                }
+              ],
               "countMatches": true
             },
             {
               "files": [
                 "README.md"
               ],
-              "from": "\\btestImplementation(\"com.github.manosbatsis.corda5.testutils:integration-junit5.*",
-              "to": "testImplementation(\"com.github.manosbatsis.corda5.testutils:integration-junit5:${lastRelease.version}\")",
+              "from": "\\bintegration-junit5:.*",
+              "to": "integration-junit5:${lastRelease.version}\")",
+              "results": [
+                {
+                  "file": "README.md",
+                  "hasChanged": true,
+                  "numMatches": 1,
+                  "numReplacements": 1
+                }
+              ],
               "countMatches": true
             }
           ]
