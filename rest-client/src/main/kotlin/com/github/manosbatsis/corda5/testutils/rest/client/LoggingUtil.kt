@@ -1,7 +1,7 @@
 package com.github.manosbatsis.corda5.testutils.rest.client
 
-import kotlin.reflect.full.companionObject
 import java.util.logging.Logger
+import kotlin.reflect.full.companionObject
 
 fun loggerFor(forClass: Class<*>): Logger =
     Logger.getLogger(

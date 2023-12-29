@@ -82,8 +82,11 @@ open class DemoApplicationTests {
         val myFlowArgs = MyFlowArgs(aliceNode.memberX500Name, bobNode.memberX500Name)
         val createdStatus = aliceNode.waitForFlow(
             FlowRequest(
-                flowClassName =  MyFlow::class.java.canonicalName,
-                requestBody = myFlowArgs
+                flowClass =  MyFlow::class.java,
+                requestBody = myFlowArgs,
+                // Either String or the type 
+                // (here MyFlowResult) marshaled to string by the flow,
+                flowResultClass = MyFlowResult::class.java
             )
         )
         // Check flow status

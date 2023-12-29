@@ -118,7 +118,8 @@ class NodeHandlesHelper(
             NodeHandle(
                 MemberX500Name.parse(it.holdingIdentity.x500Name),
                 it.holdingIdentity.shortHash,
-                flowsClient
+                flowsClient,
+                objectMapper
             )
         }
         return NodeHandles(nodes)

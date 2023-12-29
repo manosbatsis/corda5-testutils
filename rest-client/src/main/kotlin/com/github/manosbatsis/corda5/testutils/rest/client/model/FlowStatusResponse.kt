@@ -18,12 +18,12 @@ import java.time.Instant
  * @param timestamp The timestamp of when the status was last updated (in UTC)
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class FlowStatusResponse(
+data class FlowStatusResponse<T>(
     val holdingIdentityShortHash: String,
     val clientRequestId: String?,
     val flowId: String?,
     val flowStatus: String,
-    val flowResult: String?,
+    val flowResult: T?,
     val flowError: FlowStateErrorResponse?,
     val timestamp: Instant
 ) {
@@ -32,6 +32,16 @@ data class FlowStatusResponse(
         const val FAILED = "FAILED"
         val finalStatuses = setOf(COMPLETED, FAILED)
     }
+
+    fun <N> withFlowResult(result: N?) = FlowStatusResponse<N>(
+        holdingIdentityShortHash = holdingIdentityShortHash,
+        clientRequestId = clientRequestId,
+        flowId = flowId,
+        flowStatus = flowStatus,
+        flowResult = result,
+        flowError = flowError,
+        timestamp = timestamp,
+    )
 
     @JsonIgnore
     fun isFinal() = finalStatuses.contains(this.flowStatus)

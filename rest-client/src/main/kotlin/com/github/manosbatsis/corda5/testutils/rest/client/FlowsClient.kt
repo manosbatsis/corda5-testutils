@@ -7,14 +7,14 @@ import feign.RequestLine
 
 interface FlowsClient {
     @RequestLine("POST /flow/{holdingidentityshorthash}")
-    fun flow(
-        flowRequest: FlowRequest,
+    fun <T> flow(
+        flowRequest: FlowRequest<T>,
         @Param("holdingidentityshorthash") shortHash: String
-    ): FlowStatusResponse
+    ): FlowStatusResponse<T>
 
     @RequestLine("GET /flow/{holdingidentityshorthash}/{clientrequestid}")
-    fun flowStatus(
+    fun <T> flowStatus(
         @Param("holdingidentityshorthash") shortHash: String,
         @Param("clientrequestid") requestId: String
-    ): FlowStatusResponse
+    ): FlowStatusResponse<T>
 }
