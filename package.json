@@ -43,8 +43,8 @@
               "files": [
                 "README.md"
               ],
-              "from": "${lastRelease.version}",
-              "to": "${nextRelease.version}",
+              "from": "\\bintegration-junit5.*",
+              "to": "integration-junit5:${lastRelease.version}\")",
               "countMatches": true
             }
           ]
