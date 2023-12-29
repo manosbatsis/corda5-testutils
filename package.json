@@ -38,6 +38,14 @@
               "from": "\\bversion=.*",
               "to": "version=${nextRelease.version}",
               "countMatches": true
+            },
+            {
+              "files": [
+                "README.md"
+              ],
+              "from": "${lastRelease.version}",
+              "to": "${nextRelease.version}",
+              "countMatches": true
             }
           ]
         }
@@ -47,7 +55,8 @@
         {
           "assets": [
             "gradle.properties",
-            "docs/CHANGELOG.md"
+            "docs/CHANGELOG.md",
+            "README.md"
           ],
           "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
         }

@@ -70,4 +70,4 @@ jobs:
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{secrets.ORG_GRADLE_PROJECT_SONATYPEUSERNAME}}
           ORG_GRADLE_PROJECT_sonatypePassword: ${{secrets.ORG_GRADLE_PROJECT_SONATYPEPASSWORD}}
         with:
-          arguments: publishToSonatype closeAndReleaseSonatypeStagingRepositor
+          arguments: publishToSonatype closeAndReleaseSonatypeStagingRepository
