@@ -29,7 +29,8 @@ In your gradle:
 The JUnit5 extension will automatically launch, setup VNodes and (re)deploy CPIs 
 to the Combined Worker as needed by default. The config exposes three modes:
 
-- SHARED: Default, described above. 
+- SHARED: Default, described above. Leaves the worker running on finish.
+- PER_LAUNCHER: Will force a fresh Combined worker for the current JUnit LauncherSession. Stops the worker on finish.
 - PER_CLASS: Will force a fresh Combined worker for the current Test Class.
 - NONE: Completely disables automation for the Combined Worker to enable manual or external management.
 
@@ -41,15 +42,14 @@ and expose them as a `NodeHandles` parameter to your test methods. Each node has
 utility methods like `waitForFlow` that can be used to initiate flows and wait for a final flow status.
 
 ```kotlin
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.manosbatsis.corda5.testutils.integration.junit5.CombinedWorkerMode
 import com.github.manosbatsis.corda5.testutils.integration.junit5.Corda5NodesConfig
 import com.github.manosbatsis.corda5.testutils.integration.junit5.Corda5NodesExtension
 import com.github.manosbatsis.corda5.testutils.integration.junit5.nodehandles.NodeHandles
 import com.github.manosbatsis.corda5.testutils.rest.client.model.FlowRequest
-import net.corda.v5.base.types.MemberX500Name
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 // Add the Corda5 nodes extension
@@ -73,24 +73,26 @@ open class DemoApplicationTests {
 
     // The Corda5NodesExtension provides the NodeHandles
     @Test
-    fun recordingFlowTests(nodeHandles: NodeHandles) {
+    fun workFlowTests(nodeHandles: NodeHandles) {
         // Get node handles
         val aliceNode = nodeHandles.getByCommonName("Alice")
         val bobNode = nodeHandles.getByCommonName("Bob")
 
-        // Call flow
-        val myFlowArgs = MyFlowArgs(aliceNode.memberX500Name, bobNode.memberX500Name)
-        val createdStatus = aliceNode.waitForFlow(
+        // Create flow args
+        val flowArgs = MyFirstFlowStartArgs(bobNode.memberX500Name)
+        // Call Flow
+        val response = aliceNode.waitForFlow(
             FlowRequest(
-                flowClass =  MyFlow::class.java,
-                requestBody = myFlowArgs,
-                // Either String or the type 
-                // (here MyFlowResult) marshaled to string by the flow,
-                flowResultClass = MyFlowResult::class.java
+                flowClass = MyFirstFlow::class.java,
+                requestBody = flowArgs,
+                flowResultClass = Message::class.java
             )
         )
-        // Check flow status
-        assertTrue(createdStatus.isSuccess())
+
+        // Check status and deserialized flow result 
+        assertTrue(response.isSuccess())
+        val expectedMessage = Message(bobNode.memberX500Name, "Hello Alice, best wishes from Bob")
+        assertEquals(expectedMessage, response.flowResult)
     }
 }
 ```

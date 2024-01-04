@@ -37,10 +37,10 @@ class NodeHandlesHelper(
         when (config.combinedWorkerMode) {
             CombinedWorkerMode.PER_CLASS ->
                 reset().also { nodeHandlesCache = buildNodeHandles() }
-
+            CombinedWorkerMode.PER_LAUNCHER ->
+                if (nodeHandlesCache == null) nodeHandlesCache = buildNodeHandles()
             CombinedWorkerMode.SHARED ->
                 if (nodeHandlesCache == null) nodeHandlesCache = buildNodeHandles()
-
             CombinedWorkerMode.NONE ->
                 nodeHandlesCache = nodeHandles(nodesClient.nodes().virtualNodes)
         }

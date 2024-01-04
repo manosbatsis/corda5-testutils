@@ -33,7 +33,7 @@ abstract class AbstractCorda5Extension : BeforeAllCallback, AfterAllCallback, Ju
             val incrementedCallbackCount = extensionContext.root.getStore(GLOBAL).getOrDefault(allCallbackCounterKey, Int::class.java, 0)
                 .plus(1)
             extensionContext.root.getStore(GLOBAL).put(allCallbackCounterKey, incrementedCallbackCount)
-            if (incrementedCallbackCount == 1) clearNodeHandles()
+            if (incrementedCallbackCount == 1 && config.combinedWorkerMode != CombinedWorkerMode.SHARED) clearNodeHandles()
             initNodeHandles()
         }
     }
@@ -45,7 +45,8 @@ abstract class AbstractCorda5Extension : BeforeAllCallback, AfterAllCallback, Ju
             val decrementedCallbackCount = extensionContext.root.getStore(GLOBAL).get(allCallbackCounterKey, Int::class.java)
                 .minus(1)
             extensionContext.root.getStore(GLOBAL).put(allCallbackCounterKey, decrementedCallbackCount)
-            if (decrementedCallbackCount == 0 || config.combinedWorkerMode == CombinedWorkerMode.PER_CLASS)
+            val launcherFinished = decrementedCallbackCount == 0 && config.combinedWorkerMode == CombinedWorkerMode.PER_LAUNCHER
+            if (launcherFinished || config.combinedWorkerMode == CombinedWorkerMode.PER_CLASS)
                 clearNodeHandles()
         }
     }
