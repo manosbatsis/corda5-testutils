@@ -17,16 +17,22 @@ fun gradleRootDir() {
 
 enum class CombinedWorkerMode {
     /**
-     * Default. Will launch, setup VNodes and (re)deploy to the Combined Worker
-     * as needed only once and reuse it for all tests.
+     * Default. Will start, setup VNodes and (re)deploy to the Combined Worker
+     * as needed only once for all tests. Leaves the worker running.
      */
     SHARED,
 
     /**
-     * Will launch, setup VNodes and (re)deploy to the Combined Worker
+     * Will re-launch, setup VNodes and (re)deploy to the Combined Worker
      * as needed for each individual test class.
      */
     PER_CLASS,
+
+    /**
+     * Will re-launch, setup VNodes and (re)deploy to the Combined Worker
+     * as needed for every JUnit LauncherSession. Stops the worker on finish.
+     */
+    PER_LAUNCHER,
 
     /**
      * Completely disables automation for the Combined Worker to enable manual or external management.
