@@ -33,20 +33,19 @@ class NodeHandlesHelper(
             }
     }
 
-    val nodeHandles: NodeHandles
-        get() {
-            when (config.combinedWorkerMode) {
-                CombinedWorkerMode.PER_CLASS ->
-                    reset().also { nodeHandlesCache = buildNodeHandles() }
+    val nodeHandles: NodeHandles by lazy {
+        when (config.combinedWorkerMode) {
+            CombinedWorkerMode.PER_CLASS ->
+                reset().also { nodeHandlesCache = buildNodeHandles() }
 
-                CombinedWorkerMode.SHARED ->
-                    if (nodeHandlesCache == null) nodeHandlesCache = buildNodeHandles()
+            CombinedWorkerMode.SHARED ->
+                if (nodeHandlesCache == null) nodeHandlesCache = buildNodeHandles()
 
-                CombinedWorkerMode.NONE ->
-                    nodeHandlesCache = nodeHandles(nodesClient.nodes().virtualNodes)
-            }
-            return nodeHandlesCache!!
+            CombinedWorkerMode.NONE ->
+                nodeHandlesCache = nodeHandles(nodesClient.nodes().virtualNodes)
         }
+        nodeHandlesCache!!
+    }
 
     private val gradle by lazy {
         GradleHelper(
@@ -56,6 +55,10 @@ class NodeHandlesHelper(
 
     fun reset() {
         nodeHandlesCache = null
+        stop()
+    }
+
+    fun stop() {
         gradle.executeTaskAndWait("stopCorda")
     }
 
@@ -71,7 +74,7 @@ class NodeHandlesHelper(
                 }
             }
 
-        logger.info("Combined worker started, node list, size: ${nodesResponse!!.size}")
+        logger.fine("Combined worker started, node list, size: ${nodesResponse!!.size}")
         if (nodesResponse.isEmpty()) {
             gradle.executeTaskAndWait("5-vNodeSetup")
             nodesResponse = virtualNodeInfos(::nodesEmptyResponseCheck)
@@ -90,11 +93,10 @@ class NodeHandlesHelper(
         } catch (e: Exception) {
             onError()
             var maxWait = 2 * 60
+            logger.fine("Waiting for Combined Worker nodes...")
             while (reloadCheck(nodesResponse) && maxWait > 0) {
                 maxWait -= 1
                 TimeUnit.SECONDS.sleep(1L)
-
-                logger.info("Waiting for Combined Worker nodes: $maxWait")
                 try {
                     nodesResponse = nodesClient.nodes().virtualNodes
                 } catch (e: Exception) {

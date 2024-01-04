@@ -54,9 +54,11 @@ data class Corda5NodesConfig(
                 ).exists()
             ) {
                 currentDir = currentDir.parentFile
-                logger.info("currentDir: ${currentDir.absolutePath}")
             }
+            logger.fine("Using Gradle module dir: ${currentDir.absolutePath}")
             currentDir
         }
     }
+
+    val combinedWorkerEnabled = combinedWorkerMode != CombinedWorkerMode.NONE
 }
