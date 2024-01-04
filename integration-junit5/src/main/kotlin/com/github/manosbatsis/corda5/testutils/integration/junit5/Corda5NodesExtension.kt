@@ -15,21 +15,21 @@ class Corda5NodesExtension : AbstractCorda5Extension(), ParameterResolver {
 
     private var nodeHandlesHelper: NodeHandlesHelper? = null
 
-    override fun beforeAll(extensionContext: ExtensionContext) {
-        super.beforeAll(extensionContext)
-        nodeHandlesHelper = NodeHandlesHelper(config)
-    }
-
-    override fun afterAll(extensionContext: ExtensionContext) {
-        super.afterAll(extensionContext)
-    }
-
     override fun getConfig(
         extensionContext: ExtensionContext
     ) = findConfig(getRequiredTestClass(extensionContext))
 
+    override fun initNodeHandles() {
+        nodeHandlesHelper = NodeHandlesHelper(config)
+    }
+
     override fun clearNodeHandles() {
         nodeHandlesHelper?.reset()
+        nodeHandlesHelper = null
+    }
+
+    override fun stopNodesNetwork() {
+        nodeHandlesHelper?.stop()
     }
 
     fun findConfig(testClass: Class<*>): Corda5NodesConfig =

@@ -34,7 +34,7 @@ data class NodeHandle(
             flowStatusResponse = flowsClient.flowStatus(holdingIdentityShortHash, clientRequestId)
             when {
                 flowStatusResponse.isFinal() -> break
-                else -> logger.info("Non-final flow status will retry $flowStatusResponse")
+                else -> logger.fine("Non-final flow status, will retry: $flowStatusResponse")
             }
         }
 
