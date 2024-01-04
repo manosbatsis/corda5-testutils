@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# [1.2.0](https://github.com/manosbatsis/corda5-testutils/compare/v1.1.4...v1.2.0) (2024-01-04)
+
+
+### Features
+
+* add launcher session mode ([46a78b6](https://github.com/manosbatsis/corda5-testutils/commit/46a78b635044905dd0ff88148bcfe79eb5ad2f63))
+
 ## [1.1.4](https://github.com/manosbatsis/corda5-testutils/compare/v1.1.3...v1.1.4) (2024-01-04)
 
 
