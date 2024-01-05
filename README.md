@@ -7,7 +7,7 @@ At the moment this project provides utilities for integration testing with the C
 
 Same as [CSDE](https://docs.r3.com/en/tools-corda5/csde/prerequisites.html) 
 
-- Azul Zulu JDK 11
+- Azul Zulu JDK 17
 - Git ~v2.24.1
 - Docker Engine ~v20.X.Y or Docker Desktop ~v3.5.X
 - Corda CLI, see [Installing the Corda CLI](https://docs.r3.com/en/platform/corda/5.0/developing-applications/tooling/installing-corda-cli.html)
