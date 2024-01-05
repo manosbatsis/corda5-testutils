@@ -5,7 +5,7 @@ At the moment this project provides utilities for integration testing with the C
 
 ## Prerequisites
 
-Same as [CSDE](https://docs.r3.com/en/platform/corda/5.0/developing-applications/getting-started/prerequisites.html#software-prerequisites) 
+Same as [CSDE](https://docs.r3.com/en/tools-corda5/csde/prerequisites.html) 
 
 - Azul Zulu JDK 11
 - Git ~v2.24.1
